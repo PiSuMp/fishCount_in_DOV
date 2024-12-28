@@ -1,0 +1,125 @@
+library(tidyr)
+library(ggplot2)
+library(reshape2)
+library(tibble)
+library(dplyr)
+library(cowplot)
+library(RColorBrewer)
+library(Ckmeans.1d.dp)
+
+#Manipulation to get into the folder fishCount_in_DOV
+current_dir <- getwd()
+parent_dir <- dirname(current_dir)
+setwd(parent_dir)
+
+#On the test labels
+{
+#Load Dataset
+bbPerFrame <- read.csv("./03_Datasets/dataset_17/boundingboxes_class17.csv")
+
+clusterResults <- as.data.frame(bbPerFrame$videoname)
+colnames(clusterResults) <- 'videoname'
+clusterResults$category <- 'test'
+
+for(j in 1:nrow(bbPerFrame)){
+  bbPerFrameVideo <- bbPerFrame[j,]
+  bbPerFrameVideo <- bbPerFrameVideo[,2:ncol(bbPerFrameVideo)]
+  
+  #Trial of time series clustering
+  videoCluster <- bbPerFrameVideo
+  videoCluster <- videoCluster[,colSums(is.na(videoCluster))<nrow(videoCluster)]
+  
+  n <- ncol(videoCluster)-1
+  t <- seq(0, ncol(videoCluster)-1, length=n)
+  
+  w <-  as.numeric(videoCluster[1,2:ncol(videoCluster)])
+  
+  res <- Ckmeans.1d.dp(t, k=c(1:9), w)
+  k <- max(res$cluster)
+  colors <- brewer.pal(k, "Set1")
+  
+  # Extract cluster assignments
+  cluster_assignments <- res$cluster
+  
+  # Initialize a vector to store maximum values for each cluster
+  max_values <- numeric(k)
+  
+  # Loop through each cluster
+  for (i in 1:k) {
+    # Get indices of data points in the current cluster
+    cluster_indices <- which(cluster_assignments == i)
+    
+    # Get maximum value within the current cluster
+    max_values[i] <- max(w[cluster_indices])
+  }
+  
+  NCluster <- sum(max_values)
+  clusterResults$NCluster[j] <- NCluster
+  
+  
+
+}
+
+clusterResults <- select(clusterResults, -category)
+
+setwd(parent_dir)
+setwd("./04_Results/")
+write.csv(clusterResults, 'class_17_nCluster_onTestLabels.csv', row.names=FALSE)
+}
+
+#On the fully automated labels
+{
+  setwd(parent_dir)
+  
+  #Load Dataset
+  bbPerFrame <- read.csv("./03_Datasets/dataset_17/boundingboxes_class17_fullyAuto.csv")
+  
+  clusterResults <- as.data.frame(bbPerFrame$videoname)
+  colnames(clusterResults) <- 'videoname'
+  clusterResults$category <- 'test'
+  
+  for(j in 1:nrow(bbPerFrame)){
+    bbPerFrameVideo <- bbPerFrame[j,]
+    bbPerFrameVideo <- bbPerFrameVideo[,2:ncol(bbPerFrameVideo)]
+    
+    #Trial of time series clustering
+    videoCluster <- bbPerFrameVideo
+    videoCluster <- videoCluster[,colSums(is.na(videoCluster))<nrow(videoCluster)]
+    
+    n <- ncol(videoCluster)-1
+    t <- seq(0, ncol(videoCluster)-1, length=n)
+    
+    w <-  as.numeric(videoCluster[1,2:ncol(videoCluster)])
+    
+    res <- Ckmeans.1d.dp(t, k=c(1:9), w)
+    k <- max(res$cluster)
+    colors <- brewer.pal(k, "Set1")
+    
+    # Extract cluster assignments
+    cluster_assignments <- res$cluster
+    
+    # Initialize a vector to store maximum values for each cluster
+    max_values <- numeric(k)
+    
+    # Loop through each cluster
+    for (i in 1:k) {
+      # Get indices of data points in the current cluster
+      cluster_indices <- which(cluster_assignments == i)
+      
+      # Get maximum value within the current cluster
+      max_values[i] <- max(w[cluster_indices])
+    }
+    
+    NCluster <- sum(max_values)
+    clusterResults$NCluster[j] <- NCluster
+    
+    
+    
+  }
+  
+  clusterResults <- select(clusterResults, -category)
+  
+  setwd(parent_dir)
+  setwd("./04_Results/")
+  write.csv(clusterResults, 'class_17_nCluster_onDetections.csv', row.names=FALSE)
+}
