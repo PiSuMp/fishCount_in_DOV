@@ -1,15 +1,20 @@
-library(tidyr)
+
 library(ggplot2)
-library(reshape2)
-library(tibble)
+library(readr)
+library(tidyr)
 library(dplyr)
+library(reshape2)
+library(Metrics)
 library(cowplot)
+library(magick)
 library(RColorBrewer)
 library(Ckmeans.1d.dp)
+library(rstudioapi)
 
 #Manipulation to get into the folder fishCount_in_DOV
-current_dir <- getwd()
+current_dir <- getSourceEditorContext()$path
 parent_dir <- dirname(current_dir)
+parent_dir <- dirname(parent_dir)
 setwd(parent_dir)
 
 #NCluster - On the test labels
@@ -23,7 +28,7 @@ clusterResults$category <- 'test'
 
 for(j in 1:nrow(bbPerFrame)){
   bbPerFrameVideo <- bbPerFrame[j,]
-  bbPerFrameVideo <- bbPerFrameVideo[,2:ncol(bbPerFrameVideo)]
+  bbPerFrameVideo <- bbPerFrameVideo[,3:ncol(bbPerFrameVideo)]
   
   #Trial of time series clustering
   videoCluster <- bbPerFrameVideo
@@ -80,7 +85,7 @@ write.csv(clusterResults, 'class_1_nCluster_onTestLabels.csv', row.names=FALSE)
   
   for(j in 1:nrow(bbPerFrame)){
     bbPerFrameVideo <- bbPerFrame[j,]
-    bbPerFrameVideo <- bbPerFrameVideo[,2:ncol(bbPerFrameVideo)]
+    bbPerFrameVideo <- bbPerFrameVideo[,3:ncol(bbPerFrameVideo)]
     
     bbPerFrameVideo[is.na(bbPerFrameVideo)] <- 0
     nmaxResults$Nmax[j] <- max(bbPerFrameVideo)
@@ -104,7 +109,7 @@ write.csv(clusterResults, 'class_1_nCluster_onTestLabels.csv', row.names=FALSE)
   
   for(j in 1:nrow(bbPerFrame)){
     bbPerFrameVideo <- bbPerFrame[j,]
-    bbPerFrameVideo <- bbPerFrameVideo[,2:ncol(bbPerFrameVideo)]
+    bbPerFrameVideo <- bbPerFrameVideo[,3:ncol(bbPerFrameVideo)]
     
     #Trial of time series clustering
     videoCluster <- bbPerFrameVideo
@@ -161,7 +166,7 @@ write.csv(clusterResults, 'class_1_nCluster_onTestLabels.csv', row.names=FALSE)
   
   for(j in 1:nrow(bbPerFrame)){
     bbPerFrameVideo <- bbPerFrame[j,]
-    bbPerFrameVideo <- bbPerFrameVideo[,2:ncol(bbPerFrameVideo)]
+    bbPerFrameVideo <- bbPerFrameVideo[,3:ncol(bbPerFrameVideo)]
     
     bbPerFrameVideo[is.na(bbPerFrameVideo)] <- 0
     nmaxResults$Nmax[j] <- max(bbPerFrameVideo)

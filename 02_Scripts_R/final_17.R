@@ -7,10 +7,12 @@ library(reshape2)
 library(Metrics)
 library(cowplot)
 library(magick)
+library(rstudioapi)
 
 #Manipulation to get into the folder fishCount_in_DOV
-current_dir <- getwd()
+current_dir <- getSourceEditorContext()$path
 parent_dir <- dirname(current_dir)
+parent_dir <- dirname(parent_dir)
 setwd(parent_dir)
 
 #For the image
@@ -250,10 +252,10 @@ sum(ae(bbs_ALL$Ntcn, bbs_ALL$Nact))
 bbs_ALL_wo0 <- subset(bbs_ALL, Nact >= 1)
 
 #wo0
-cor(bbs_ALL_wo0$Nmax, bbs_ALL_wo01$Nact)
-cor(bbs_ALL_wo0$NCluster, bbs_ALL_wo01$Nact)
-cor(bbs_ALL_wo0$Nimproved, bbs_ALL_wo01$Nact)
-cor(bbs_ALL_wo0$Ntcn, bbs_ALL_wo01$Nact)
+cor(bbs_ALL_wo0$Nmax, bbs_ALL_wo0$Nact)
+cor(bbs_ALL_wo0$NCluster, bbs_ALL_wo0$Nact)
+cor(bbs_ALL_wo0$Nimproved, bbs_ALL_wo0$Nact)
+cor(bbs_ALL_wo0$Ntcn, bbs_ALL_wo0$Nact)
 
 #GET CORRELATION WITHOUT 0s AND 1s
 bbs_ALL_wo01 <- subset(bbs_ALL, Nact >= 2)
@@ -264,6 +266,8 @@ cor(bbs_ALL_wo01$NCluster, bbs_ALL_wo01$Nact)
 cor(bbs_ALL_wo01$Nimproved, bbs_ALL_wo01$Nact)
 cor(bbs_ALL_wo01$Ntcn, bbs_ALL_wo01$Nact)
 }
+
+my_plot_2
 
 #On fully automated labels
 #Before running this part, copy the best performing NHeuristic into the ./04_Results/ folder and name the file 'class_13_nheuristic_onDetections.csv'
@@ -405,10 +409,10 @@ cor(bbs_ALL_wo01$Ntcn, bbs_ALL_wo01$Nact)
   bbs_ALL_wo0 <- subset(bbs_ALL, Nact >= 1)
   
   #wo0
-  cor(bbs_ALL_wo0$Nmax, bbs_ALL_wo01$Nact)
-  cor(bbs_ALL_wo0$NCluster, bbs_ALL_wo01$Nact)
-  cor(bbs_ALL_wo0$Nimproved, bbs_ALL_wo01$Nact)
-  cor(bbs_ALL_wo0$Ntcn, bbs_ALL_wo01$Nact)
+  cor(bbs_ALL_wo0$Nmax, bbs_ALL_wo0$Nact)
+  cor(bbs_ALL_wo0$NCluster, bbs_ALL_wo0$Nact)
+  cor(bbs_ALL_wo0$Nimproved, bbs_ALL_wo0$Nact)
+  cor(bbs_ALL_wo0$Ntcn, bbs_ALL_wo0$Nact)
   
   #GET CORRELATION WITHOUT 0s AND 1s
   bbs_ALL_wo01 <- subset(bbs_ALL, Nact >= 2)
@@ -419,3 +423,5 @@ cor(bbs_ALL_wo01$Ntcn, bbs_ALL_wo01$Nact)
   cor(bbs_ALL_wo01$Nimproved, bbs_ALL_wo01$Nact)
   cor(bbs_ALL_wo01$Ntcn, bbs_ALL_wo01$Nact)
 }
+
+my_plot_2

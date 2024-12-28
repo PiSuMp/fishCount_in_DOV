@@ -2,10 +2,12 @@
 library(dplyr)
 library(readr)
 library(stringr)
+library(rstudioapi)
 
 #Manipulation to get into the folder fishCount_in_DOV
-current_dir <- getwd()
+current_dir <- getSourceEditorContext()$path
 parent_dir <- dirname(current_dir)
+parent_dir <- dirname(parent_dir)
 setwd(parent_dir)
 
 #Class1
