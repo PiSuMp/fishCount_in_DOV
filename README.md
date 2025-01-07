@@ -24,14 +24,14 @@ Kilian Bürgi, Rémy Sun, Charles Bouveyron, Diane Lingrand, Benoit Dérijard, e
 Depending on the species you would like to assess use the different final_XX.R scripts in the folder 02_Scripts_R
 
 If calibration already done:
-1. Run lines from the final_XX.R script
-  1.1a Run final_XX.R lines 0 to 270 for the perfect case (this also includes the calibration)
+1. Run lines from the final_XX.R script \
+  1.1a Run final_XX.R lines 0 to 270 for the perfect case (this also includes the calibration) \
   1.1b Run final_XX.R lines 271 to 429 for the fully automated case
 
 If calibration not done:
 1. Run the lines 0 to 113 of the final_XX.R script
 2. The two variables 'absolute_errors' and 'correlations' will give you the best performing parameters on the training set
 3. Copy the file in folder '03_Datasets/dataset_XX/best performing parameters/ into the folder 04_Results and rename it to 'class_XX_nheuristic_onTestLabels.csv' OR 'class_XX_nheuristic_onDetections.csv'
-4. Run lines from the final_XX.R script
-  4.1a Run final_XX.R lines 0 to 270 for the perfect case (this also includes the calibration)
+4. Run lines from the final_XX.R script \
+  4.1a Run final_XX.R lines 0 to 270 for the perfect case (this also includes the calibration) \
   4.1b Run final_XX.R lines 271 to 429 for the fully automated case
